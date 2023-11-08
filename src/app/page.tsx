@@ -1,10 +1,11 @@
 import { TwitterCard } from "@/components/TwitterCard";
-import path from "path";
 
 export default function Home() {
   return (
     <main>
       <TwitterCard
+        type="retweet"
+        retweetedUser="みかん"
         user={{
           name: "もも",
           accountName: "momo",
