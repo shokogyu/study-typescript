@@ -8,5 +8,6 @@
   "prettier.tabWidth": 2,
   "prettier.printWidth": 100,
   "prettier.semi": true,
-  "editor.hover.enabled": true
+  "editor.hover.enabled": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
