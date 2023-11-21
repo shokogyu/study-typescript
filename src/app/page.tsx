@@ -1,20 +1,25 @@
 "use client";
-import { TwitterCard } from "@/components/TwitterCard";
-import { useState } from "react";
+import { ChangeEventHandler, FC, useState } from "react";
+
+type Todo = {
+  id: Number;
+  label: string;
+  isDone: boolean;
+};
 
 export default function Home() {
-  const [text, setText] = useState("aa");
-  const [todos, setTodos] = useState([
-    { id: Math.random(), label: "TODO1", isDone: false },
-    { id: Math.random(), label: "TODO2", isDone: false },
-    { id: Math.random(), label: "TODO3", isDone: false },
-  ]);
+  const [text, setText] = useState("");
+  const [todos, setTodos] = useState<Todo[]>([]);
 
-  const input = (e) => {
+  const input: ChangeEventHandler<HTMLInputElement> = (e) => {
+    // 型確認参考URL：https://reffect.co.jp/react/react-typescript-event/
     setText(e.target.value);
   };
+  // const input = (e: ChangeEvent<HTMLInputElement>) => { // 型確認参考URL：https://reffect.co.jp/react/react-typescript-event/
+  //   setText(e.target.value);
+  // };
 
-  const toggle = (e) => {
+  const toggle: ChangeEventHandler<HTMLInputElement> = (e) => {
     setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
         if (todo.id === Number(e.target.value)) {
@@ -36,7 +41,7 @@ export default function Home() {
         },
       ];
     });
-    setText("")
+    setText("");
   };
 
   return (
@@ -52,11 +57,8 @@ export default function Home() {
         <ul className="mt-4 space-y-2">
           {todos.map((todo) => {
             return (
-              <li key={todo.id}>
-                <label className="flex items-center gap-x-2">
-                  <input type="checkbox" value={todo.id} checked={todo.isDone} onChange={toggle} />
-                  <span>{todo.label}</span>
-                </label>
+              <li key={String(todo.id)}>
+                <ListItem todo={todo} toggle={toggle} />
               </li>
             );
           })}
@@ -65,3 +67,15 @@ export default function Home() {
     </main>
   );
 }
+
+const ListItem: FC<{ todo: Todo; toggle: ChangeEventHandler<HTMLInputElement> }> = ({
+  todo,
+  toggle,
+}) => {
+  return (
+    <label className="flex items-center gap-x-2">
+      <input type="checkbox" value={Number(todo.id)} checked={todo.isDone} onChange={toggle} />
+      <span>{todo.label}</span>
+    </label>
+  );
+};
